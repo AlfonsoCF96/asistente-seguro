@@ -3,182 +3,371 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Pini – Asistente de Alfonso Cárdenas | GNP Seguros</title>
+  <meta name="theme-color" content="#002d72"/>
+  <title>Pini – Asistente de Alfonso Cárdenas</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10c-16 0-29 13-29 29 0 22 29 51 29 51s29-29 29-51c0-16-13-29-29-29z' fill='%23ee6326'/%3E%3Ccircle cx='40' cy='35' r='4' fill='%23fff'/%3E%3Ccircle cx='60' cy='35' r='4' fill='%23fff'/%3E%3Cpath d='M38 45 Q50 55 62 45' stroke='%23000' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#e8edf4;display:flex;justify-content:center;align-items:center;min-height:100vh}
-    .app{width:100%;max-width:430px;height:100svh;max-height:820px;display:flex;flex-direction:column;background:#f0f4f9;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.13)}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#e8edf4;display:flex;justify-content:center;align-items:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+    .app{width:100%;max-width:430px;height:100svh;max-height:820px;display:flex;flex-direction:column;background:#f0f4f9;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.13);position:relative}
     @media(min-width:500px){.app{border-radius:22px;height:820px}}
 
     /* HEADER */
-    .hdr{background:linear-gradient(135deg,#002d72,#0057b8);padding:13px 16px;display:flex;align-items:center;gap:11px;flex-shrink:0}
-    .hdr-av{position:relative;flex-shrink:0}
-    .hdr-av span{width:46px;height:46px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,.35)}
-    .dot{width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid #fff;position:absolute;bottom:1px;right:1px}
-    .hdr-txt{flex:1}
+    .hdr{background:linear-gradient(135deg,#002d72,#0057b8);padding:13px 16px;display:flex;align-items:center;gap:11px;flex-shrink:0;z-index:5}
+    .hdr-av{position:relative;flex-shrink:0;width:46px;height:46px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.35);overflow:hidden}
+    .hdr-av svg, .hdr-av img{width:36px;height:36px;display:block}
+    .dot{width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid #fff;position:absolute;bottom:-1px;right:-1px}
+    .hdr-txt{flex:1;min-width:0}
     .hdr-name{font-size:15px;font-weight:700;color:#fff}
     .hdr-sub{font-size:11px;color:rgba(255,255,255,.72);margin-top:2px}
     .hdr-badge{font-size:10px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.4px;text-transform:uppercase}
 
     /* MESSAGES */
-    .msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:9px;background:#f0f4f9}
+    .msgs{flex:1;overflow-y:auto;padding:14px 12px 4px;display:flex;flex-direction:column;gap:9px;background:#f0f4f9;-webkit-overflow-scrolling:touch}
     .msgs::-webkit-scrollbar{width:3px}
     .msgs::-webkit-scrollbar-thumb{background:#c5d0de;border-radius:3px}
-
     .row{display:flex;align-items:flex-end;gap:7px}
     .row.u{flex-direction:row-reverse}
-    .av{width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-
-    .bbl{max-width:80%;padding:10px 14px;font-size:14px;line-height:1.65;animation:pop .16s ease}
-    @keyframes pop{from{opacity:0;transform:scale(.95) translateY(3px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .av{width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+    .av svg, .av img{width:24px;height:24px;display:block}
+    .bbl{max-width:80%;padding:10px 14px;font-size:14px;line-height:1.55;animation:pop .18s ease-out;word-wrap:break-word}
+    @keyframes pop{from{opacity:0;transform:scale(.95) translateY(4px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .bbl.a{background:#fff;border-radius:4px 16px 16px 16px;box-shadow:0 1px 5px rgba(0,0,0,.07);color:#1a1a2e}
     .bbl.u{background:#002d72;border-radius:16px 16px 4px 16px;color:#fff}
     .bbl p{margin:2px 0}
+    .bbl strong{font-weight:600}
 
     /* QUICK BUTTONS */
-    .qbtns{padding:4px 12px 8px;display:flex;flex-wrap:wrap;gap:7px;background:#f0f4f9}
-    .qb{font-size:13px;font-weight:500;padding:8px 16px;border-radius:22px;border:1.5px solid #bed0e8;background:#fff;color:#002d72;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .qbtns{padding:6px 12px 8px;display:flex;flex-wrap:wrap;gap:7px;background:#f0f4f9}
+    .qb{font-size:13px;font-weight:500;padding:8px 16px;border-radius:22px;border:1.5px solid #bed0e8;background:#fff;color:#002d72;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit}
     .qb:hover{background:#e8f0fb;border-color:#0057b8}
     .qb:active{transform:scale(.97)}
 
     /* INPUT */
     .inp-row{display:flex;gap:8px;padding:10px 12px 12px;background:#fff;border-top:1px solid #e0e7ef;flex-shrink:0}
-    .inp-row input{flex:1;font-size:14px;padding:10px 14px;border-radius:22px;border:1.5px solid #d0dae8;font-family:inherit;color:#333;background:#f7f9fc;transition:border .15s}
+    .inp-row input{flex:1;font-size:14px;padding:10px 14px;border-radius:22px;border:1.5px solid #d0dae8;font-family:inherit;color:#333;background:#f7f9fc;transition:border .15s;-webkit-appearance:none}
     .inp-row input:focus{outline:none;border-color:#0057b8;background:#fff}
-    .send{padding:10px 18px;font-size:14px;border-radius:22px;border:none;background:#002d72;color:#fff;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap}
+    .send{padding:10px 18px;font-size:14px;border-radius:22px;border:none;background:#002d72;color:#fff;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap;font-family:inherit}
     .send:hover{background:#003fa3}
     .send:disabled{background:#b0bec5;cursor:default}
 
-    .typing-bbl{background:#fff;border-radius:4px 16px 16px 16px;padding:10px 16px;font-size:13px;color:#888;box-shadow:0 1px 5px rgba(0,0,0,.07)}
+    .typing-bbl{background:#fff;border-radius:4px 16px 16px 16px;padding:12px 16px;box-shadow:0 1px 5px rgba(0,0,0,.07);display:flex;gap:4px;align-items:center}
+    .typing-bbl span{width:7px;height:7px;background:#999;border-radius:50%;animation:bounce 1.2s infinite}
+    .typing-bbl span:nth-child(2){animation-delay:.15s}
+    .typing-bbl span:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
 
     /* WHATSAPP BTN */
-    .wa-btn{display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:12px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;transition:background .15s;width:100%}
+    .wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;transition:background .15s;width:100%;font-family:inherit;box-shadow:0 2px 6px rgba(37,211,102,.3)}
     .wa-btn:hover{background:#1ebe5d}
+    .wa-btn:active{transform:scale(.98)}
+
+    /* RATING */
+    .rating-card{background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-top:6px}
+    .rating-q{font-size:13px;color:#555;margin-bottom:10px;line-height:1.5}
+    .stars{display:flex;gap:6px;justify-content:center;padding:4px 0}
+    .star{font-size:30px;cursor:pointer;color:#d0d6df;transition:transform .12s, color .12s;user-select:none}
+    .star:hover, .star.hover{transform:scale(1.15)}
+    .star.active{color:#facc15}
+    .feedback-input{width:100%;margin-top:10px;padding:10px 12px;border-radius:10px;border:1.5px solid #d0dae8;font-size:13px;font-family:inherit;background:#f7f9fc;resize:none;min-height:60px}
+    .feedback-input:focus{outline:none;border-color:#0057b8;background:#fff}
+    .feedback-send{margin-top:8px;padding:9px 14px;border-radius:10px;border:none;background:#002d72;color:#fff;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:inherit}
+    .feedback-send:hover{background:#003fa3}
+    .feedback-send:disabled{background:#b0bec5;cursor:default}
+    .skip-btn{background:none;border:none;color:#888;font-size:12px;cursor:pointer;margin-top:6px;padding:4px 8px;font-family:inherit;width:100%}
+    .skip-btn:hover{color:#555}
+
+    /* PINI LOGO BG */
+    .pini-logo-bg{background:linear-gradient(135deg,#fff7ed,#fed7aa)}
   </style>
 </head>
 <body>
 <div class="app">
-
   <!-- HEADER -->
   <div class="hdr">
-    <div class="hdr-av">
-      <span>🐾</span>
+    <div class="hdr-av pini-logo-bg" id="header-avatar">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 8c-17 0-31 14-31 31 0 23 31 53 31 53s31-30 31-53c0-17-14-31-31-31z" fill="#ee6326" stroke="#3a1f0a" stroke-width="3"/>
+        <ellipse cx="50" cy="38" rx="22" ry="20" fill="#ee6326"/>
+        <circle cx="40" cy="34" r="5" fill="#fff"/>
+        <circle cx="60" cy="34" r="5" fill="#fff"/>
+        <circle cx="40" cy="35" r="2.5" fill="#3a1f0a"/>
+        <circle cx="60" cy="35" r="2.5" fill="#3a1f0a"/>
+        <path d="M38 44 Q50 53 62 44" stroke="#3a1f0a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      </svg>
       <div class="dot"></div>
     </div>
     <div class="hdr-txt">
-      <div class="hdr-name">Pini 🐾</div>
+      <div class="hdr-name">Pini</div>
       <div class="hdr-sub">Asistente de Alfonso Cárdenas</div>
     </div>
     <div class="hdr-badge">GNP Seguros</div>
   </div>
 
-  <!-- MESSAGES -->
   <div class="msgs" id="msgs"></div>
-
-  <!-- QUICK BUTTONS -->
   <div class="qbtns" id="qbtns"></div>
 
-  <!-- INPUT -->
   <div class="inp-row">
-    <input id="inp" type="text" placeholder="Escribe aquí tu mensaje..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+    <input id="inp" type="text" placeholder="Escribe aquí tu mensaje..." autocomplete="off"
+           onkeydown="if(event.key==='Enter')sendMsg()"/>
     <button class="send" id="send-btn" onclick="sendMsg()">Enviar</button>
   </div>
-
 </div>
 
 <script>
-const WA_NUMBER = '5537787103';
+const WA_NUMBER = '5215537787103';
+const ALFONSO_NOMBRE = 'Alfonso Cárdenas';
 
-const SYSTEM = `Eres Pini, el asistente virtual amigable y profesional de Alfonso Cárdenas, agente autorizado de GNP Seguros.
+const SYSTEM = `Eres Pini, el asistente personal de Alfonso Cárdenas, asesor de seguros autorizado de GNP.
 
-PERSONALIDAD:
-- Cálido, empático y cercano. Hablas como una persona real, no como un robot.
-- Usas emojis con moderación (1-2 por mensaje máximo).
-- Haces UNA pregunta a la vez, nunca un interrogatorio.
-- Frases que usas naturalmente: "con gusto te ayudo", "no te preocupes, yo te voy guiando", "déjame ayudarte con eso", "vamos juntos paso a paso", "te explico fácil".
-- Nunca suenas urgente ni vendedor agresivo. La idea es acompañar, no presionar.
-- Si no sabes algo con certeza, lo dices honestamente y ofreces pasarlo con Alfonso.
+═══ TU ROL ═══
+Tu función es AYUDAR, ORIENTAR y ACOMPAÑAR a los clientes de Alfonso en dudas, situaciones y problemas relacionados con sus seguros.
+NO vendes. NO presionas. NO actúas como call center.
+Tu objetivo es que el cliente se sienta acompañado, entendido y seguro.
 
-FLUJO PRINCIPAL:
-1. El usuario llega → ya se le mostró el mensaje de bienvenida con botones "Ya soy cliente" / "Quiero cotizar"
-2. Si es CLIENTE: pídele número de póliza o correo → usa el conocimiento base para resolver sus dudas → ofrece ayuda adicional
-3. Si quiere COTIZAR: pregunta tipo de seguro → edad → ciudad → presupuesto aproximado (opcional) → al final ofrece conectarlo con Alfonso por WhatsApp
-4. SIEMPRE cerrar con una acción concreta (WhatsApp, más info, etc.)
+═══ IDENTIDAD Y TONO ═══
+- Humano y conversacional (como un chat de WhatsApp con un amigo experto)
+- Cercano, empático y tranquilo
+- Claro y práctico
+- Hablas español natural de México (puedes usar expresiones como "claro que sí", "con gusto", "no te preocupes", "ándale", "órale" con moderación)
+- Frases cortas, sin tecnicismos innecesarios
+- Emojis con moderación: 🙂 🙏 🚗 📄 🐶 🏥 (1-2 por mensaje máximo)
+- NUNCA suenas como robot ni mencionas que eres una IA
+- NUNCA citas documentos, códigos CNSF, números de manual o versiones técnicas
 
-CAPTURA DE LEAD - MUY IMPORTANTE:
-Cuando ya tengas: nombre, tipo de seguro, edad y ciudad del prospecto, genera este bloque especial exactamente así:
-[LEAD_LISTO:nombre=NOMBRE|seguro=TIPO|edad=EDAD|ciudad=CIUDAD]
+═══ MENSAJE DE BIENVENIDA ═══
+El primer mensaje (manejado por la app) ya saluda al usuario. No necesitas re-presentarte cada turno.
 
-Cuando no sepas algo: di "Buena pregunta 😊 Para darte una respuesta exacta prefiero que Alfonso lo revise directamente. ¿Quieres que te conecte con él ahora?"
+═══ FORMA DE RESPONDER ═══
+1. Explicación clara y al punto (2-4 frases idealmente)
+2. Un consejo práctico cuando aplique
+3. Una pregunta para continuar la conversación
 
-TELÉFONO EMERGENCIAS GNP (24/7): 55 5227 9000
+═══ TIPOS DE AYUDA QUE DAS ═══
+1. **Dudas sobre pólizas** — qué cubre, cómo funciona, qué hacer si...
+2. **Siniestros** — choques, robos, emergencias médicas (ver MODO CALMA)
+3. **Uso del seguro** — cómo agendar, cómo reembolsar, cómo usar la app
+4. **Consejos prácticos** — qué documentos tener a la mano, cómo evitar problemas
 
-═══ CONOCIMIENTO GNP SEGUROS ═══
+═══ CONSEJOS DE EXPERTO (DIFERENCIADOR) ═══
+Frecuentemente compartes insights útiles, como un asesor con experiencia real:
+- "Esto pasa mucho con clientes…"
+- "Te recomiendo esto para evitar problemas…"
+- "Aquí hay algo importante que la gente no suele saber…"
 
-── SEGURO DE AUTOS ──
-COBERTURAS PRINCIPALES:
-• Daños Materiales Pérdida Parcial: colisión, vuelcos, incendio, granizo, inundación, huracán, terremoto, vandalismo. Pérdida parcial = daño menor al 65% del valor.
-• Daños Materiales Pérdida Total: mismos riesgos cuando daño supera el 65% del valor.
-• Cristales: reposición de parabrisas, lunas, quemacocos.
-• Robo Total: si no se recupera en 30 días se indemniza al 100%.
-• Responsabilidad Civil Daños a Terceros: daños materiales y lesiones a terceros. SIN deducible. Opera en México, EUA y Canadá.
-• Responsabilidad Civil Ocupantes: lesiones o muerte de ocupantes del vehículo asegurado.
-• Gastos Médicos Ocupantes: hospitalización, ambulancia, médicos, gastos funerarios (sublímite $50,000 MN).
-• Robo Parcial: robo de autopartes originales (espejos, faros, radio, tablero, asientos, etc.)
-• Robo Parcial Plus: igual pero incluye neumáticos y rines.
-• Club GNP (auxilio vial): paso de corriente, 5 litros combustible, cambio de llanta, cerrajero, grúa local $3,500 MN. Límite: 5 servicios.
-• Club GNP Plus: mismos servicios, grúa $7,000 MN, 10 servicios.
-• Auto Sustituto: vehículo de reemplazo tras pérdida total o robo total.
-• Auto Sustituto Plus: también aplica en pérdidas parciales.
-• Protección Legal: defensa jurídica en accidentes.
-• Paga Cero / Cero Deducible: elimina deducible en pérdida total y robo total.
-• Siempre en Agencia: reparación garantizada en agencia de la marca.
-• Conductor Protegido: gastos médicos del conductor principal en otro vehículo.
-• Garantía Autos Financiados: cubre diferencia entre saldo del crédito e indemnización.
-• Robo Artículos Personales: celular, laptop, tableta, cámara, reloj dentro del vehículo en asalto.
+═══ MODO CALMA (CRÍTICO) ═══
+Si detectas estrés, urgencia, accidente, robo o emergencia, respondes así:
 
-PROCEDIMIENTO EN SINIESTRO DE AUTO:
-1. Llama al 55 5227 9000 (24/7) o reporta por app "Soy Cliente GNP"
+Primer mensaje:
+"Estoy contigo, no te preocupes 🙏 Vamos paso a paso."
+
+Luego:
+- Prioridad #1: SEGURIDAD del cliente y otras personas
+- Si es accidente: ¿hay heridos? ¿están en lugar seguro?
+- Si es robo: ¿estás bien? ¿ya estás en lugar seguro?
+- Da pasos numerados, claros, uno a la vez
+- Comparte el teléfono de emergencias GNP 24/7: **55 5227 9000** (autos/asistencia) o **55 5482 3710** (Médica Móvil para GMM)
+- Lenguaje simple, frases cortas, sin saturar
+
+═══ ESCALAMIENTO A ALFONSO ═══
+Cuando el caso lo amerite (cotización, trámite complejo, dudas legales, situación delicada), dices:
+"Este caso vale la pena revisarlo directamente con Alfonso para darte la mejor solución. ¿Quieres que te conecte con él por WhatsApp ahora?"
+
+Cuando el cliente acepta hablar con Alfonso, genera al final del mensaje el siguiente bloque EXACTAMENTE así (será detectado por la app y no se mostrará al cliente):
+[CONECTAR_ALFONSO:motivo=BREVE_RESUMEN_DEL_CASO]
+
+Por ejemplo:
+[CONECTAR_ALFONSO:motivo=Cliente con duda sobre cobertura de robo parcial en su Toyota 2022]
+
+═══ DETECCIÓN DE CIERRE ═══
+Si el cliente dice frases como "gracias", "listo", "es todo", "perfecto, eso era", "quedó claro", "ya con eso", responde con calidez breve y al final del mensaje agrega EXACTAMENTE este bloque:
+[MOSTRAR_RATING]
+
+Ejemplo de respuesta de cierre:
+"¡Qué bueno que pude ayudarte! 😊 Si surge cualquier otra duda, aquí estoy. [MOSTRAR_RATING]"
+
+═══ LIMITACIONES ═══
+- NO inventes información, precios ni coberturas que no estén en tu base de conocimiento
+- NO garantices coberturas sin contexto suficiente
+- NO hagas promesas sobre pagos, montos o tiempos exactos
+- Si no sabes algo: "Prefiero revisarlo bien para darte una respuesta correcta. ¿Te parece si lo vemos directamente con Alfonso?"
+
+═══ MEMORIA CONTEXTUAL ═══
+- NO repitas preguntas que ya hiciste
+- Retoma información previa del cliente (su nombre, tipo de seguro, situación)
+
+═══════════════════════════════════════════════════════════
+                BASE DE CONOCIMIENTO GNP SEGUROS
+═══════════════════════════════════════════════════════════
+
+══ 🚗 SEGURO DE AUTOS Y MOTOS ══
+
+PAQUETES (de mayor a menor cobertura):
+1. **Premium** — Lo más completo: incluye Auto Sustituto Plus, Cero Deducible en Pérdida Total, Eliminación de Deducible en Pérdidas Parciales, Robo de Artículos Personales, Club GNP Plus, Ayuda Llantas/Rines.
+2. **Amplia Total** — Cobertura amplia con paquete robusto de extras.
+3. **Amplia** — Cobertura completa estándar (daños, robo, RC, gastos médicos, asistencias).
+4. **Limitada** — Sin Daños Materiales (solo robo, RC y básicos).
+5. **RC** — Solo Responsabilidad Civil a terceros (lo mínimo legal).
+
+COBERTURAS BÁSICAS:
+- Daños Materiales (deducible 3/5/10%)
+- Robo Total (deducible 0/3/5/10%, pago a 30 días si no se recupera)
+- Responsabilidad Civil a terceros (sumas $1M a $5M, sin deducible, opera en México, EUA y Canadá)
+- Gastos Médicos Ocupantes ($100K a $1M)
+- Cristales (deducible 20%)
+- Protección Legal
+- Club GNP / Club GNP Plus (auxilio vial: grúa, paso de corriente, cerrajero, cambio de llanta)
+
+EXTRAS POPULARES:
+- Auto Sustituto / Plus
+- Cero Deducible / Paga Cero
+- Robo de Artículos Personales (celular, laptop, etc.)
+- Conductor Protegido
+- Garantía Autos Financiados
+- Siempre en Agencia
+
+VIGENCIA: hasta 2 años para residentes; pago anual o en parcialidades.
+EDAD DEL VEHÍCULO: hasta 20 años (residentes); >20 años solo paquete RC.
+TIPOS DE VEHÍCULO: Residente, Blindado, Alta Gama, Importado, Fronterizo, Legalizado, Clásico, Antiguo, Extranjero con estancia.
+
+PROCEDIMIENTO EN SINIESTRO:
+1. Llama al **55 5227 9000** (24/7) o reporta por la app "Soy Cliente GNP"
 2. NO hagas arreglos con terceros sin autorización de GNP
 3. En robo: levanta acta ante el Ministerio Público
 4. Documentos: licencia vigente, identificación oficial, tarjeta de circulación
-5. GNP tiene 30 días para pagar desde que recibe documentación completa
-6. IMPORTANTE: el seguro NO cubre uso en Uber, Cabify, Rappi, taxi ni transporte comercial
+5. GNP tiene 30 días para pagar desde recibir documentación completa
 
-── SEGURO DE MASCOTAS "MI MASCOTA GNP" ──
-Cubre: perros y gatos de 3 meses a 9 años (renovable hasta 14 años)
+⚠️ IMPORTANTE: el seguro NO cubre uso comercial (Uber, Cabify, Rappi, taxi).
 
-COBERTURA BÁSICA (siempre incluida):
-• Responsabilidad Civil: daños que tu mascota cause a terceros. Espera: 10 días.
+══ 🐶 SEGURO MASCOTAS "Mi Mascota GNP" ══
 
-COBERTURAS ADICIONALES:
-• Gastos Médicos Veterinarios por accidente (espera 10 días): atropellamiento, ataques, traumatismos, ingesta objetos extraños, golpe de calor, envenenamiento accidental.
-• Gastos Médicos por enfermedad (espera 180 días): enfermedades no prevenibles con emergencia médica.
-• Incluye: consulta, medicamentos, análisis, cirugías, hospitalización +24hrs.
-• Estancia en guardería/hotel: $200/día máximo $2,000 por vigencia.
-• Fallecimiento de mascota: por accidente o enfermedad crónica (espera 360 días).
-• Robo con violencia: robo de la mascota con violencia (espera 10 días).
+QUIÉN APLICA: perros y gatos de **6 meses a 9 años** (renovable hasta 12 años). Solo en pesos. Vigencia anual.
 
-ASISTENCIAS (llama al 55 5227 9000 Opción 8-4):
-Orientación veterinaria 24/7, desparasitación, pipeta antipulgas, vacuna antirrábica anual, cremación, esterilización, consulta veterinaria a domicilio, baño y peluquería, referencias de guarderías pet friendly.
+3 PAQUETES:
+- **Cuidado Esencial** — RC $10K + Gastos Médicos Veterinarios $10K + asistencias básicas
+- **Cuidado Superior** — Esencial + Robo + Fallecimiento + asistencias adicionales (1 evento)
+- **Cuidado Máximo** — RC $30K + GMV $30K + Robo $5K + Fallecimiento $10K + asistencias 2-3 eventos
 
-NO CUBRE: enfermedades preexistentes, vacunas preventivas, extravío, mal trato o abandono, peleas o actividades ilícitas.
+COBERTURAS:
+- **Responsabilidad Civil**: si tu mascota muerde o causa daños a terceros (gente o cosas)
+- **Gastos Médicos Veterinarios** (vía reembolso): cirugías, hospitalización, análisis, parto, hospedaje por viaje (10 días de espera)
+- **Robo con Violencia** de la mascota
+- **Fallecimiento** por accidente o enfermedad
 
-═══ CÓMO COTIZAR ═══
-Para AUTO necesito: año/marca/modelo del vehículo, estado donde circula, si tiene financiamiento, coberturas deseadas.
-Para MASCOTA necesito: especie (perro/gato), raza, edad, historial médico.
-Cuando tengas los datos → genera el bloque [LEAD_LISTO:...] y ofrece conectar con Alfonso por WhatsApp.`;
+ASISTENCIAS INCLUIDAS:
+- Orientación veterinaria telefónica
+- Desparasitación, pipeta antipulgas, vacuna antirrábica anual
+- Cremación
+- Adicionales: esterilización (1-9 años, 180 días de espera), baño/peluquería, consulta veterinaria a domicilio
+
+DEDUCIBLE GMV: 10% por defecto (opcional 0/5/10/15/20%)
+SUMAS ASEGURADAS: $5,000 a $35,000
+
+NO CUBRE: enfermedades preexistentes/crónicas no declaradas, padecimientos prevenibles si no hay vacunación al día (moquillo, parvovirus, rabia, leptospirosis), peleas, mal trato.
+
+══ 🏥 GASTOS MÉDICOS MAYORES (GMM) ══
+
+GNP tiene una familia de productos GMM. Lo importante: siempre se contratan con **suma asegurada + deducible + coaseguro + nivel hospitalario + círculo médico**.
+
+PRODUCTOS PRINCIPALES:
+
+**1. Versátil** — La línea "core" de GMM. De 0 a 64 años (renovación sin límite).
+   Cubre: hospital, honorarios, cirugía, estudios, medicamentos, ambulancia, maternidad (10 meses de espera), trasplantes (6 meses de espera), pruebas moleculares oncológicas (MammaPrint, Oncotype DX, FoundationOne, Tempus).
+
+**2. Personaliza Variable** — Permite al cliente ajustar deducible y coaseguro para personalizar la prima.
+   Incluye SIN COSTO la **Membresía Médica Móvil** (orientación 24/7, ambulancia, médico a domicilio).
+   Beneficios opcionales: Cláusula Familiar, Maternidad Plus, Emergencia en Extranjero, Cero Deducible por Accidente.
+
+**3. Premium / Platino / Flexible** — Los planes top, para clientes que quieren acceso a hospitales premium (ABC, Médica Sur, Ángeles top, etc.). Niveles hospitalarios: Premium > Platino > Índigo > Ámbar > Cuarzo.
+
+**4. Personaliza MédicaMovil Acceso Esencial** — Versión más económica con red hospitalaria limitada (CDMX, EdoMex, MTY, GDL, Mérida, Puebla, León, Querétaro, SLP).
+   ⚠️ OBLIGATORIO llamar primero a Médica Móvil al **55 5482 3710**. Si no, hay penalización en coaseguro (+5% no llamar, +20% atenderse fuera de red).
+
+EDADES DE CONTRATACIÓN: generalmente 0 a 70 años. De 65 a 70 requiere estudios médicos.
+
+PERIODOS DE ESPERA TÍPICOS:
+- 30 días para enfermedad general (accidentes desde día 1)
+- 6 meses: trasplantes
+- 10 meses: maternidad
+- 24 meses: padecimientos osteoartríticos, columna
+- 48 meses: cirugía bariátrica
+
+NO CUBRE: preexistencias no declaradas, infertilidad, control natal, disfunción eréctil, aborto, miopía/astigmatismo, estética, suicidio, alcoholismo/drogadicción, deportes profesionales/extremos.
+
+PADECIMIENTOS NO ASEGURABLES (clave): Diabetes Mellitus, cirrosis, hepatitis C, leucemia, esclerosis múltiple, insuficiencia renal crónica, enfermedades autoinmunes, enfisema, hemofilia, angina inestable, 2+ stents/puentes coronarios.
+
+TIP: si el cliente tuvo seguro previo con suma ≥ $891,000, puede pedir reducción/eliminación de periodos de espera (con máx 30 días al descubierto).
+
+══ 💰 SEGUROS DE VIDA / AHORRO ══
+
+**1. Profesional** — Vida individual con ahorro garantizado (Dotal). Asegurable hasta 70 años.
+   - Pago si fallece (a beneficiarios) Y pago si sobrevive (al asegurado al término del plazo)
+   - Renovación garantizada sin pruebas
+   - Disponible en pesos y dólares
+   - Para quien quiere certeza: "si vivo, recibo; si fallezco, mi familia recibe"
+
+**2. Proyecta** — Vida con ahorro estructurado para objetivos a futuro (retiro, herencia, patrimonio).
+   - Opciones de liquidación flexibles: pago único, fideicomiso, rentas vitalicias (incluso heredables) o temporales
+   - Pagos limitados (a X años) o regulares
+   - Para quien quiere asegurar ingresos futuros para él y su pareja
+
+EXCLUSIONES VIDA: Suicidio en los primeros 2 años. Fallecimiento por delitos del Código Penal Federal.
+
+PRESCRIPCIÓN: 5 años para reclamar fallecimiento, 2 años para otras coberturas.
+
+══ 📱 APP "Soy Cliente GNP" ══
+
+Toda persona con póliza GNP debería descargarla. Disponible en App Store y Google Play.
+
+PARA REGISTRARSE: número de póliza (en carátula) + fecha de nacimiento + correo registrado.
+
+QUÉ HACE:
+- 🆘 Botón SOS / Asistencia Vial con GPS y rastreo en vivo de grúa o ajustador
+- 📂 Guantera Digital (póliza, licencia, tarjeta de circulación)
+- 🏥 GMM: directorio de hospitales, credencial digital, estatus de reembolsos, programación de cirugías
+- 💳 Pagos y consulta de saldos
+- 📜 Historial de pagos y facturas
+
+TIP: la credencial digital evita cargar la física, y el SOS es lo más útil en situación de emergencia vial.
+
+══ 📞 TELÉFONOS CLAVE ══
+- Emergencias y Asistencia Vial GNP 24/7: **55 5227 9000**
+- Médica Móvil (GMM): **55 5482 3710**
+- WhatsApp directo con Alfonso: vía botón "Hablar con Alfonso"
+
+═══════════════════════════════════════════════════════════
+                    OBJETIVO FINAL
+═══════════════════════════════════════════════════════════
+Que el cliente sienta que:
+- Alguien real lo ayudó
+- Entiende mejor su seguro
+- Sabe qué hacer
+
+NUNCA debe sentir que habló con una IA.`;
 
 let history = [];
-let leadData = {};
-let showingQuick = true;
+let conversationStartTime = Date.now();
+
+const PINI_AVATAR_SVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 8c-17 0-31 14-31 31 0 23 31 53 31 53s31-30 31-53c0-17-14-31-31-31z" fill="#ee6326" stroke="#3a1f0a" stroke-width="3"/>
+  <ellipse cx="50" cy="38" rx="22" ry="20" fill="#ee6326"/>
+  <circle cx="40" cy="34" r="5" fill="#fff"/>
+  <circle cx="60" cy="34" r="5" fill="#fff"/>
+  <circle cx="40" cy="35" r="2.5" fill="#3a1f0a"/>
+  <circle cx="60" cy="35" r="2.5" fill="#3a1f0a"/>
+  <path d="M38 44 Q50 53 62 44" stroke="#3a1f0a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+</svg>`;
+
+function avatarHTML() {
+  return `<div class="av pini-logo-bg">${PINI_AVATAR_SVG}</div>`;
+}
 
 function addMsg(role, html) {
   const msgs = document.getElementById('msgs');
   const row = document.createElement('div');
   row.className = 'row ' + (role === 'user' ? 'u' : '');
   if (role === 'assistant') {
-    row.innerHTML = `<div class="av">🐾</div><div class="bbl a">${html}</div>`;
+    row.innerHTML = `${avatarHTML()}<div class="bbl a">${html}</div>`;
   } else {
     row.innerHTML = `<div class="bbl u">${html}</div>`;
   }
@@ -202,13 +391,54 @@ function clearQuickBtns() {
   document.getElementById('qbtns').innerHTML = '';
 }
 
-function showWAButton(text, waText) {
+function setLoading(on) {
+  document.getElementById('send-btn').disabled = on;
+  const msgs = document.getElementById('msgs');
+  if (on) {
+    const t = document.createElement('div');
+    t.className = 'row';
+    t.id = 'typing';
+    t.innerHTML = `${avatarHTML()}<div class="typing-bbl"><span></span><span></span><span></span></div>`;
+    msgs.appendChild(t);
+    msgs.scrollTop = msgs.scrollHeight;
+  } else {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+  }
+}
+
+function fmtText(t) {
+  return t
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .split('\n')
+    .filter(l => l.trim() !== '')
+    .map(l => `<p>${l}</p>`)
+    .join('');
+}
+
+function parseConectarAlfonso(text) {
+  const m = text.match(/\[CONECTAR_ALFONSO:motivo=([^\]]+)\]/);
+  return m ? m[1].trim() : null;
+}
+
+function shouldShowRating(text) {
+  return /\[MOSTRAR_RATING\]/.test(text);
+}
+
+function cleanReply(text) {
+  return text
+    .replace(/\[CONECTAR_ALFONSO:[^\]]+\]/g, '')
+    .replace(/\[MOSTRAR_RATING\]/g, '')
+    .trim();
+}
+
+function showWAButton(intro, waText) {
   const msgs = document.getElementById('msgs');
   const wrap = document.createElement('div');
   wrap.className = 'row';
-  wrap.innerHTML = `<div class="av">🐾</div><div style="max-width:80%">
-    <div class="bbl a"><p>${text}</p></div>
-    <button class="wa-btn" onclick="openWA('${waText}')">
+  wrap.innerHTML = `${avatarHTML()}<div style="max-width:80%">
+    <div class="bbl a"><p>${intro}</p></div>
+    <button class="wa-btn" onclick="openWA(\`${waText.replace(/`/g, "\\`")}\`)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.847L.057 23.882l6.198-1.625A11.935 11.935 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.214-3.724.976.996-3.63-.234-.374A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/></svg>
       Hablar con Alfonso por WhatsApp
     </button>
@@ -222,46 +452,85 @@ function openWA(text) {
   window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
 }
 
-function parseLead(text) {
-  const match = text.match(/\[LEAD_LISTO:([^\]]+)\]/);
-  if (!match) return null;
-  const parts = {};
-  match[1].split('|').forEach(p => {
-    const [k, v] = p.split('=');
-    parts[k] = v;
-  });
-  return parts;
+function buildWATextForAlfonso(motivo) {
+  return `Hola Alfonso! 👋 Vengo de hablar con Pini.
+
+📋 *Resumen de mi consulta:*
+${motivo || 'Necesito ayuda con mi seguro.'}
+
+¿Me puedes apoyar? 🙏`;
 }
 
-function buildWAText(lead) {
-  return `Hola Alfonso! 👋 Me contacté a través de Pini y me interesa una cotización de seguro.
+let currentRating = 0;
 
-📋 *Mis datos:*
-• Nombre: ${lead.nombre || 'No proporcionado'}
-• Tipo de seguro: ${lead.seguro || 'No especificado'}
-• Edad: ${lead.edad || 'No proporcionada'}
-• Ciudad: ${lead.ciudad || 'No proporcionada'}
-
-¿Me puedes ayudar? 😊`;
-}
-
-function setLoading(on) {
-  document.getElementById('send-btn').disabled = on;
+function showRatingCard() {
   const msgs = document.getElementById('msgs');
-  if (on) {
-    const t = document.createElement('div');
-    t.className = 'row'; t.id = 'typing';
-    t.innerHTML = '<div class="av">🐾</div><div class="typing-bbl">Escribiendo...</div>';
-    msgs.appendChild(t);
-    msgs.scrollTop = msgs.scrollHeight;
-  } else {
-    const t = document.getElementById('typing');
-    if (t) t.remove();
-  }
+  const wrap = document.createElement('div');
+  wrap.className = 'row';
+  wrap.id = 'rating-row';
+  wrap.innerHTML = `${avatarHTML()}<div style="max-width:85%;width:85%">
+    <div class="rating-card">
+      <div class="rating-q">Antes de cerrar, ¿me ayudas con algo rápido? 🙏<br><br><strong>¿Qué tan útil fue esta ayuda?</strong></div>
+      <div class="stars" id="stars">
+        ${[1,2,3,4,5].map(n => `<span class="star" data-n="${n}" onclick="selectStar(${n})" onmouseenter="hoverStar(${n})" onmouseleave="hoverStar(0)">★</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-function fmtText(t) {
-  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').split('\n').map(l=>`<p>${l}</p>`).join('');
+function hoverStar(n) {
+  document.querySelectorAll('#stars .star').forEach((s, i) => {
+    s.classList.toggle('hover', i < n);
+  });
+}
+
+function selectStar(n) {
+  currentRating = n;
+  document.querySelectorAll('#stars .star').forEach((s, i) => {
+    s.classList.toggle('active', i < n);
+  });
+  setTimeout(showFeedbackInput, 350);
+}
+
+function showFeedbackInput() {
+  const card = document.querySelector('#rating-row .rating-card');
+  if (!card || card.dataset.expanded === '1') return;
+  card.dataset.expanded = '1';
+  card.innerHTML += `
+    <div class="rating-q" style="margin-top:14px"><strong>¿Hay algo que podríamos mejorar?</strong> (opcional)</div>
+    <textarea class="feedback-input" id="feedback-text" placeholder="Tu comentario..."></textarea>
+    <button class="feedback-send" id="feedback-send-btn" onclick="sendFeedback()">Enviar y mandar a Alfonso por WhatsApp</button>
+    <button class="skip-btn" onclick="skipFeedback()">Saltar</button>
+  `;
+  const msgs = document.getElementById('msgs');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function buildFeedbackWAText(rating, comment) {
+  const stars = '⭐'.repeat(rating) + (rating < 5 ? '☆'.repeat(5 - rating) : '');
+  return `Hola Alfonso! 🙌 Acabo de usar a Pini y aquí va mi feedback:
+
+*Calificación:* ${stars} (${rating}/5)
+*Comentario:* ${comment || '(sin comentario)'}
+
+¡Saludos!`;
+}
+
+function sendFeedback() {
+  const text = document.getElementById('feedback-text').value.trim();
+  const waText = buildFeedbackWAText(currentRating, text);
+  const card = document.querySelector('#rating-row .rating-card');
+  card.innerHTML = `<div class="rating-q" style="text-align:center">¡Gracias por tu feedback, nos ayuda muchísimo! 🙌<br><br>Te abrimos WhatsApp para enviárselo a Alfonso.</div>`;
+  setTimeout(() => openWA(waText), 600);
+}
+
+function skipFeedback() {
+  const waText = buildFeedbackWAText(currentRating, '');
+  const card = document.querySelector('#rating-row .rating-card');
+  card.innerHTML = `<div class="rating-q" style="text-align:center">¡Gracias por tu calificación! 🙌</div>`;
+  setTimeout(() => openWA(waText), 600);
 }
 
 async function sendMsg(override) {
@@ -270,7 +539,7 @@ async function sendMsg(override) {
   if (!msg) return;
   inp.value = '';
   clearQuickBtns();
-  addMsg('user', `<p>${msg}</p>`);
+  addMsg('user', `<p>${escapeHtml(msg)}</p>`);
   history.push({ role: 'user', content: msg });
   setLoading(true);
 
@@ -280,37 +549,63 @@ async function sendMsg(override) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ system: SYSTEM, messages: history })
     });
-    const data = await res.json();
-    let reply = data.content?.map(b => b.text).join('') || 'Hubo un problema, intenta de nuevo.';
 
-    const lead = parseLead(reply);
-    reply = reply.replace(/\[LEAD_LISTO:[^\]]+\]/g, '').trim();
+    if (!res.ok) {
+      throw new Error('Error de servidor');
+    }
+
+    const data = await res.json();
+    let raw = data.content?.map(b => b.text).join('') || 'Hubo un problema, intenta de nuevo.';
+
+    const motivo = parseConectarAlfonso(raw);
+    const showRating = shouldShowRating(raw);
+    const reply = cleanReply(raw);
 
     history.push({ role: 'assistant', content: reply });
     setLoading(false);
 
-    if (lead) {
-      addMsg('assistant', fmtText(reply));
-      setTimeout(() => {
-        showWAButton(
-          '¡Todo listo! 🙌 Aquí abajo puedes hablar directamente con Alfonso para recibir tu cotización personalizada:',
-          buildWAText(lead)
-        );
-      }, 400);
-    } else {
+    if (reply) {
       addMsg('assistant', fmtText(reply));
     }
-  } catch {
+
+    if (motivo) {
+      setTimeout(() => {
+        showWAButton(
+          'Aquí abajo puedes contactar a Alfonso directamente 👇',
+          buildWATextForAlfonso(motivo)
+        );
+      }, 400);
+    }
+
+    if (showRating) {
+      setTimeout(showRatingCard, 600);
+    }
+
+  } catch (err) {
+    console.error(err);
     setLoading(false);
-    addMsg('assistant', '<p>Ups, hubo un problema de conexión. Por favor intenta de nuevo 😊</p>');
+    addMsg('assistant', '<p>Ups, hubo un problema de conexión. ¿Lo intentamos de nuevo? 🙏</p>');
   }
 }
 
-// INICIO
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
 window.onload = () => {
   setTimeout(() => {
-    addMsg('assistant', '<p>Hola 👋 soy <strong>Pini</strong>, asistente de <strong>Alfonso Cárdenas</strong>.</p><p>Estoy aquí para ayudarte de forma clara y rápida 😊</p><p>Cuéntame, ¿ya tienes una póliza con nosotros o te gustaría hacer una cotización?</p>');
-    setQuickBtns(['✅ Ya soy cliente', '📋 Quiero cotizar']);
+    addMsg('assistant',
+      `<p>Hola 👋 soy <strong>Pini</strong>, el asistente de <strong>${ALFONSO_NOMBRE}</strong>.</p>
+       <p>Estoy aquí para ayudarte con cualquier duda sobre tu seguro o acompañarte si tienes algún problema 🙂</p>
+       <p>¿En qué te puedo apoyar?</p>`
+    );
+    setQuickBtns([
+      '🚗 Tengo un accidente',
+      '📄 Duda sobre mi póliza',
+      '🏥 Tema de gastos médicos',
+      '🐶 Mi mascota',
+      '💬 Otra cosa'
+    ]);
   }, 300);
 };
 </script>
